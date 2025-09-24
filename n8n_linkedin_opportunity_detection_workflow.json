@@ -1,0 +1,66 @@
+{
+  "name": "LinkedIn Agency Opportunity Detection (Python + Save Outputs)",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 */5 * * * *",
+        "options": {}
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "python3 /path/to/your/project/main.py"
+      },
+      "name": "Execute Command",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "mkdir -p /path/to/your/project/outputs && cp /path/to/your/project/qualified_opportunities.csv /path/to/your/project/outputs/sample_output.csv && cp /path/to/your/project/qualified_opportunities.json /path/to/your/project/outputs/sample_output.json"
+      },
+      "name": "Save Outputs",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Save Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
